@@ -1,23 +1,15 @@
-import { pipe } from "lodash/fp";
+import { bugAdded, bugRemoved, bugResolved } from "./actions";
+import * as actions from "./actionTypes";
+import store from "./store";
 
-const input = { tag: "JAVASCRIPT" };
+const unsubscribe = store.subscribe(() => {
+  console.log("Store changed!", store.getState());
+});
 
-const getTag = obj => tag => obj[tag];
-const lower = str => str.toLowerCase();
-const wrap = (start, finish) => str => `${start}${str}${finish}`;
+store.dispatch(bugAdded("Bug1"));
 
-const transform = pipe(getTag(input), lower, wrap("(", ")"), wrap('"', '"'));
+store.dispatch(bugResolved(1));
 
-console.log(transform("tag"));
+store.dispatch(bugRemoved(1));
 
-const recipe = {
-  name: "Spaghetti Bolognese",
-  ingredients: ["egg", "salt"],
-};
-
-const updatedRecipe = {
-  ...recipe,
-  ingredients: recipe.ingredients.filter(i => i !== "egg"),
-};
-
-console.log(updatedRecipe);
+console.log(store.getState());
