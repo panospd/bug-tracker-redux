@@ -7,6 +7,11 @@ import reducer from "./reducer";
 export default function () {
   return configureStore({
     reducer,
-    middleware: [...getDefaultMiddleware(), logger("console"), toast, api],
+    middleware: [
+      ...getDefaultMiddleware(),
+      // logger("console"),
+      toast,
+      api,
+    ],
   });
 }
